@@ -1,0 +1,335 @@
+    F2401171    movw r1, #0x0171
+    F016F96E    bl 0x0003DCA4 <app_error_handler>
+--- main.c -- 365 ------------------------------------------
+.prov_device_identification_stop_cb = NULL,
+.prov_abort_cb = provisioning_aborted_cb,
+.p_device_uri = EX_URI_LS_SERVER
+};
+ERROR_CHECK(mesh_provisionee_prov_start(&prov_start_params));
+    E001        b 0x000279CE
+--- main.c -- 370 ------------------------------------------
+}
+else
+{
+unicast_address_print();
+    F7FFFFB9    bl 0x00027940 <unicast_address_print>
+--- main.c -- 374 ------------------------------------------
+}
+mesh_app_uuid_print(nrf_mesh_configure_device_uuid_get());
+    F001F8F5    bl 0x00028BBC <nrf_mesh_configure_device_uuid_get>
+    F000FC73    bl 0x000282BC <mesh_app_uuid_print>
+--- main.c -- 377 ------------------------------------------
+ERROR_CHECK(mesh_stack_start());
+    F00AFEE1    bl 0x0003279C <mesh_stack_start>
+    B9A8        cbnz r0, 0x00027A08
+--- main.c -- 379 ------------------------------------------
+__LOG(LOG_SRC_APP, LOG_LEVEL_INFO, m_usage_string);
+    4B17        ldr r3, =0x2000300C <g_log_dbg_msk>
+    681B        ldr r3, [r3]
+    F4134F80    tst r3, #0x4000
+    D003        beq 0x000279EE
+    4B16        ldr r3, =0x20003008 <g_log_dbg_lvl>
+    681B        ldr r3, [r3]
+    2B03        cmp r3, #3
+    DC12        bgt 0x00027A14
+--- main.c -- 381 ------------------------------------------
+hal_led_mask_set(LEDS_MASK, LED_MASK_STATE_OFF);
+    2100        movs r1, #0
+    F44F30F0    mov.w r0, #0x01E000
+    F000FB90    bl 0x00028118 <hal_led_mask_set>
+--- main.c -- 383 ------------------------------------------
+hal_led_blink_ms(LEDS_MASK, LED_BLINK_INTERVAL_MS, LED_BLINK_CNT_START);
+    2202        movs r2, #2
+    21C8        movs r1, #0xC8
+    F44F30F0    mov.w r0, #0x01E000
+    F000FB96    bl 0x00028130 <hal_led_blink_ms>
+    B00B        add sp, sp, #0x2C
+    BD30        pop {r4-r5, pc}
+--- main.c -- 378 ------------------------------------------
+ERROR_CHECK(mesh_stack_start());
+    4A0B        ldr r2, =0x00047200
+    F44F71BD    mov.w r1, #0x017A
+    F016F949    bl 0x0003DCA4 <app_error_handler>
+    E7E3        b 0x000279DC
+--- main.c -- 379 ------------------------------------------
+__LOG(LOG_SRC_APP, LOG_LEVEL_INFO, m_usage_string);
+    4B0B        ldr r3, =0x40011000
+    F8D33504    ldr.w r3, [r3, #0x0504]
+    4A0B        ldr r2, =0x00047454 <m_usage_string>
+    9200        str r2, [sp]
+    F44F72BE    mov.w r2, #0x017C
+    490A        ldr r1, =0x00047243
+    2004        movs r0, #4
+    F007F897    bl 0x0002EB58 <log_printf>
+    E7E0        b 0x000279EE
+    00027655    .word 0x00027655
+    2000305C    .word 0x2000305C
+    00047430    .word 0x00047430
+    00047200    .word 0x00047200
+    2000300C    .word 0x2000300C
+    20003008    .word 0x20003008
+    40011000    .word 0x40011000
+    00047454    .word 0x00047454
+    00047243    .word 0x00047243
+--- main.c -- 283 ------------------------------------------
+{
+    B500        push {lr}
+    B083        sub sp, sp, #12
+--- main.c -- 284 ------------------------------------------
+__LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "Successfully provisioned\n");
+    4B15        ldr r3, =0x2000300C <g_log_dbg_msk>
+    681B        ldr r3, [r3]
+    F4134F80    tst r3, #0x4000
+    D003        beq 0x00027A66
+    4B14        ldr r3, =0x20003008 <g_log_dbg_lvl>
+    681B        ldr r3, [r3]
+    2B03        cmp r3, #3
+    DC15        bgt 0x00027A92
+--- main.c -- 285 ------------------------------------------
+#if MESH_FEATURE_GATT_ENABLED
+/* Restores the application parameters after switching from the Provisioning
+* service to the Proxy */
+gap_params_init();
+    F000FF55    bl 0x00028914 <gap_params_init>
+--- main.c -- 290 ------------------------------------------
+conn_params_init();
+    F000FF81    bl 0x00028970 <conn_params_init>
+--- main.c -- 291 ------------------------------------------
+#endif
+unicast_address_print();
+    F7FFFF67    bl 0x00027940 <unicast_address_print>
+--- main.c -- 294 ------------------------------------------
+hal_led_blink_stop();
+    F000FB93    bl 0x0002819C <hal_led_blink_stop>
+--- main.c -- 295 ------------------------------------------
+hal_led_mask_set(LEDS_MASK, LED_MASK_STATE_OFF);
+    2100        movs r1, #0
+    F44F30F0    mov.w r0, #0x01E000
+    F000FB4C    bl 0x00028118 <hal_led_mask_set>
+--- main.c -- 296 ------------------------------------------
+hal_led_blink_ms(LEDS_MASK, LED_BLINK_INTERVAL_MS, LED_BLINK_CNT_PROV);
+    2204        movs r2, #4
+    21C8        movs r1, #0xC8
+    F44F30F0    mov.w r0, #0x01E000
+    F000FB52    bl 0x00028130 <hal_led_blink_ms>
+    B003        add sp, sp, #12
+    F85DFB04    pop.w {pc}
+--- main.c -- 284 ------------------------------------------
+__LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "Successfully provisioned\n");
+    4B08        ldr r3, =0x40011000
+    F8D33504    ldr.w r3, [r3, #0x0504]
+    4A07        ldr r2, =0x00047414
+    9200        str r2, [sp]
+    F44F728E    mov.w r2, #0x011C
+    4906        ldr r1, =0x00047243
+    2004        movs r0, #4
+    F007F858    bl 0x0002EB58 <log_printf>
+    E7DD        b 0x00027A66
+    BF00        nop
+    2000300C    .word 0x2000300C
+    20003008    .word 0x20003008
+    40011000    .word 0x40011000
+    00047414    .word 0x00047414
+    00047243    .word 0x00047243
+--- main.c -- 383 ------------------------------------------
+hal_led_blink_ms(LEDS_MASK, LED_BLINK_INTERVAL_MS, LED_BLINK_CNT_START);
+}
+int main(void)
+{
+    B508        push {r3, lr}
+--- main.c -- 388 ------------------------------------------
+initialize();
+    F7FFFE5D    bl 0x00027780 <initialize>
+--- main.c -- 389 ------------------------------------------
+start();
+    F7FFFF65    bl 0x00027994 <start>
+--- main.c -- 390 ------------------------------------------
+for (;;)
+{
+(void)sd_app_evt_wait();
+    F7FFFC69    bl 0x000273A0 <sd_app_evt_wait>
+--- main.c -- 391 ------------------------------------------
+for (;;)
+    E7FC        b 0x00027ACA
+--- app_onoff.c -- 72 --------------------------------------
+const model_transition_t * p_in_transition)
+{
+app_transition_params_t * p_params = app_transition_requested_get(&p_app->state.transition);
+p_params->transition_type = APP_TRANSITION_TYPE_SET;
+    2300        movs r3, #0
+    F8803064    strb.w r3, [r0, #0x64]
+--- app_onoff.c -- 77 --------------------------------------
+p_params->minimum_step_ms = TRANSITION_STEP_MIN_MS;
+    232D        movs r3, #0x2D
+    6603        str r3, [r0, #0x60]
+--- app_onoff.c -- 78 --------------------------------------
+if (p_in_transition == NULL)
+    B121        cbz r1, 0x00027AE6
+--- app_onoff.c -- 82 --------------------------------------
+p_params->transition_time_ms = 0;
+}
+else
+{
+p_app->state.transition.delay_ms = p_in_transition->delay_ms;
+    684A        ldr r2, [r1, #4]
+    6782        str r2, [r0, #0x78]
+--- app_onoff.c -- 87 --------------------------------------
+p_params->transition_time_ms = p_in_transition->transition_time_ms;
+    680B        ldr r3, [r1]
+    6583        str r3, [r0, #0x58]
+    4770        bx lr
+--- app_onoff.c -- 81 --------------------------------------
+p_app->state.transition.delay_ms = 0;
+    2300        movs r3, #0
+    6783        str r3, [r0, #0x78]
+--- app_onoff.c -- 82 --------------------------------------
+p_params->transition_time_ms = 0;
+    6583        str r3, [r0, #0x58]
+    4770        bx lr
+--- app_onoff.c -- 88 --------------------------------------
+}
+}
+static void onoff_current_value_update(app_onoff_server_t * p_app)
+{
+    B508        push {r3, lr}
+--- app_onoff.c -- 93 --------------------------------------
+if (p_app->onoff_set_cb != NULL)
+    6B43        ldr r3, [r0, #0x34]
+    B113        cbz r3, 0x00027AFA
+--- app_onoff.c -- 94 --------------------------------------
+{
+p_app->onoff_set_cb(p_app, p_app->state.present_onoff);
+    F8901040    ldrb.w r1, [r0, #0x40]
+    4798        blx r3
+    BD08        pop {r3, pc}
+--- app_onoff.c -- 100 -------------------------------------
+static void generic_onoff_state_get_cb(const generic_onoff_server_t * p_self,
+const access_message_rx_meta_t * p_meta,
+generic_onoff_status_params_t * p_out)
+{
+    B530        push {r4-r5, lr}
+    B083        sub sp, sp, #12
+    4604        mov r4, r0
+    4615        mov r5, r2
+--- app_onoff.c -- 105 -------------------------------------
+__LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "msg: GET \n");
+    4B12        ldr r3, =0x2000300C <g_log_dbg_msk>
+    681B        ldr r3, [r3]
+    F4134F80    tst r3, #0x4000
+    D003        beq 0x00027B16
+    4B11        ldr r3, =0x20003008 <g_log_dbg_lvl>
+    681B        ldr r3, [r3]
+    2B03        cmp r3, #3
+    DC11        bgt 0x00027B3A
+--- app_onoff.c -- 106 -------------------------------------
+app_onoff_server_t * p_app = PARENT_BY_FIELD_GET(app_onoff_server_t, server, p_self);
+/* Requirement: Provide the current value of the OnOff state */
+p_app->onoff_get_cb(p_app, &p_app->state.present_onoff);
+    6BA3        ldr r3, [r4, #0x38]
+    F1040140    add.w r1, r4, #0x40
+    4620        mov r0, r4
+    4798        blx r3
+--- app_onoff.c -- 111 -------------------------------------
+p_out->present_on_off = p_app->state.present_onoff;
+    F8943040    ldrb.w r3, [r4, #0x40]
+    702B        strb r3, [r5]
+--- app_onoff.c -- 112 -------------------------------------
+p_out->target_on_off = p_app->state.target_onoff;
+    F8943042    ldrb.w r3, [r4, #0x42]
+    706B        strb r3, [r5, #1]
+--- app_onoff.c -- 113 -------------------------------------
+/* Requirement: Always report remaining time */
+p_out->remaining_time_ms = app_transition_remaining_time_get(&p_app->state.transition);
+    F1040048    add.w r0, r4, #0x48
+    F000FD88    bl 0x00028644 <app_transition_remaining_time_get>
+    6068        str r0, [r5, #4]
+    B003        add sp, sp, #12
+    BD30        pop {r4-r5, pc}
+--- app_onoff.c -- 105 -------------------------------------
+__LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "msg: GET \n");
+    4B07        ldr r3, =0x40011000
+    F8D33504    ldr.w r3, [r3, #0x0504]
+    4A06        ldr r2, =0x000475DC
+    9200        str r2, [sp]
+    2269        movs r2, #0x69
+    4906        ldr r1, =0x000475CE
+    2004        movs r0, #4
+    F007F805    bl 0x0002EB58 <log_printf>
+    E7E2        b 0x00027B16
+    2000300C    .word 0x2000300C
+    20003008    .word 0x20003008
+    40011000    .word 0x40011000
+    000475DC    .word 0x000475DC
+    000475CE    .word 0x000475CE
+--- app_onoff.c -- 119 -------------------------------------
+const access_message_rx_meta_t * p_meta,
+const generic_onoff_set_params_t * p_in,
+const model_transition_t * p_in_transition,
+generic_onoff_status_params_t * p_out)
+{
+    B5F0        push {r4-r7, lr}
+    B085        sub sp, sp, #20
+    4604        mov r4, r0
+    4615        mov r5, r2
+    461F        mov r7, r3
+    9E0A        ldr r6, [sp, #0x28]
+--- app_onoff.c -- 124 -------------------------------------
+__LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "msg: SET: %d\n", p_in->on_off);
+    4B1C        ldr r3, =0x2000300C <g_log_dbg_msk>
+    681B        ldr r3, [r3]
+    F4134F80    tst r3, #0x4000
+    D003        beq 0x00027B82
+    4B1B        ldr r3, =0x20003008 <g_log_dbg_lvl>
+    681B        ldr r3, [r3]
+    2B03        cmp r3, #3
+    DC19        bgt 0x00027BB6
+--- app_onoff.c -- 125 -------------------------------------
+app_onoff_server_t * p_app = PARENT_BY_FIELD_GET(app_onoff_server_t, server, p_self);
+bool present_on_off;
+p_app->onoff_get_cb(p_app, &present_on_off);
+    6BA3        ldr r3, [r4, #0x38]
+    F10D010F    add.w r1, sp, #15
+    4620        mov r0, r4
+    4798        blx r3
+--- app_onoff.c -- 130 -------------------------------------
+/* Update internal representation of OnOff value, process timing */
+p_app->value_updated = false;
+    2300        movs r3, #0
+    F88430E4    strb.w r3, [r4, #0xE4]
+--- app_onoff.c -- 132 -------------------------------------
+p_app->state.target_onoff = p_in->on_off;
+    782B        ldrb r3, [r5]
+    F8843042    strb.w r3, [r4, #0x42]
+--- app_onoff.c -- 133 -------------------------------------
+uint32_t transition_time_ms = 0;
+if (present_on_off != p_in->on_off)
+    F89D200F    ldrb.w r2, [sp, #15]
+    4293        cmp r3, r2
+    D117        bne 0x00027BD0
+    2500        movs r5, #0
+--- app_onoff.c -- 139 -------------------------------------
+app_transition_trigger(&p_app->state.transition);
+}
+/* Prepare response */
+if (p_out != NULL)
+    B136        cbz r6, 0x00027BB2
+--- app_onoff.c -- 144 -------------------------------------
+{
+p_out->present_on_off = p_app->state.present_onoff;
+    F8943040    ldrb.w r3, [r4, #0x40]
+    7033        strb r3, [r6]
+--- app_onoff.c -- 146 -------------------------------------
+p_out->target_on_off = p_app->state.target_onoff;
+    F8943042    ldrb.w r3, [r4, #0x42]
+    7073        strb r3, [r6, #1]
+--- app_onoff.c -- 147 -------------------------------------
+p_out->remaining_time_ms = transition_time_ms;
+    6075        str r5, [r6, #4]
+    B005        add sp, sp, #20
+    BDF0        pop {r4-r7, pc}
+--- app_onoff.c -- 124 -------------------------------------
+__LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "msg: SET: %d\n", p_in->on_off);
+    4B0D        ldr r3, =0x40011000
+    F8D33504    ldr.w r3, [r3, #0x0504]
+    7812        ldrb r2, [r2]
+    9201        str r2, [sp, #4]
